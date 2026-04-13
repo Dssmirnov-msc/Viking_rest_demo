@@ -19,6 +19,16 @@ public class VikingTableModel extends AbstractTableModel {
         fireTableRowsInserted(row, row);
     }
 
+    public void removeViking(String vikingName) {
+        for (Viking viking : data) {
+            if (viking.name().equals(vikingName)) {
+                data.remove(viking);
+                fireTableRowsDeleted(0, data.size());
+            }
+            break;
+        }
+    }
+
     @Override
     public int getRowCount() {
         return data.size();
@@ -49,8 +59,6 @@ public class VikingTableModel extends AbstractTableModel {
     }
 
     private String formatEquipment(List<EquipmentItem> equipment) {
-        return equipment.stream()
-                .map(item -> item.name() + " [" + item.quality() + "]")
-                .collect(Collectors.joining(", "));
+        return equipment.stream().map(item -> item.name() + " [" + item.quality() + "]").collect(Collectors.joining(", "));
     }
 }

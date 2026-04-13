@@ -4,6 +4,7 @@
 # Log file
 *.log
 
+.idea
 # BlueJ files
 *.ctxt
 
@@ -23,3 +24,6 @@
 hs_err_pid*
 replay_pid*
 /target/
+src/.DS_Store
+src/main/.DS_Store
+.DS_Store
