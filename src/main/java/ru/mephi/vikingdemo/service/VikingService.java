@@ -5,38 +5,41 @@ import ru.mephi.vikingdemo.model.Viking;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.mephi.vikingdemo.repository.VikingStorage;
 
 @Service
 public class VikingService {
     // каждый раз при изменении создаётся новая копия списка 
-    private final CopyOnWriteArrayList<Viking> vikings = new CopyOnWriteArrayList<>();
+
     private final VikingFactory vikingFactory;
-
+    private final VikingStorage vikingStorage;
+    
+    
     @Autowired
-    public VikingService(VikingFactory vikingFactory) {
+    public VikingService(
+            VikingFactory vikingFactory,
+            VikingStorage vikingStorage
+    ) {
         this.vikingFactory = vikingFactory;
+        this.vikingStorage = vikingStorage;
     }
-
+    
     public List<Viking> findAll() {
-        return List.copyOf(vikings);
+        return vikingStorage.findAll();
     }
 
     public Viking createRandomViking() {
         Viking viking = vikingFactory.createRandomViking();
-        vikings.add(viking);
-        return viking;
+        return vikingStorage.save(viking);
     }
-
-    public void addViking(Viking viking) {
-        vikings.add(viking);
+  
+    public void deleteById(int id) {
+        vikingStorage.deleteById(id);
     }
-
     public void deleteViking(String vikingName) {
         vikings.removeIf(viking -> viking.name().equals(vikingName));
     }
-
     public Viking findViking(String vikingName) {
         for (Viking viking : vikings) {
             if (viking.name().equals(vikingName)) {

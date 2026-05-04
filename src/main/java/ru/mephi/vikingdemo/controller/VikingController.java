@@ -61,11 +61,21 @@ public class VikingController {
         }
     }
 
-
     @DeleteMapping
     @Operation(summary = "Удалить викинга из таблицы",
         operationId = "deleteViking")
     public void deleteViking(@RequestParam("vikingName") String vikingName) {
         vikingListener.deleteViking(vikingName);
+    }
+      
+    @PostMapping("/post")
+    @Operation(summary = "Создать викинга со случайными параметрами", 
+            operationId = "post")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг успешно создан")
+    })
+    public void addViking(){
+        System.out.println("POST api/vikings/post called");
+        vikingListener.testAdd();
     }
 }
